@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/txtnombre_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Introduzca su nombre" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/txtapellido_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Introduzca su apellido" />
+
+    <EditText
+        android:id="@+id/txtusuario_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Introduzca su usuario" />
+
+    <EditText
+        android:id="@+id/txtpass_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Introduzca su password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/txtpass2_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Repita su password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnreg_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrarme" />
+
+</LinearLayout>
