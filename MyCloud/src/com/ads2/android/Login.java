@@ -74,11 +74,14 @@ public class Login extends Activity implements OnTouchListener {
 	
 	//Metodo para manejar el ingreso de los usuarios al sistema.
 	public void ingresar(){
-		
+		String usuario = user.getText().toString().trim();
+		String passwd = pass.getText().toString().trim();
 		//Si no estan vacios los cuadros de texto entonces...
-		if(!user.getText().toString().trim().equals("") && !pass.getText().toString().trim().equals("")){
+		if(!usuario.equals("") && !passwd.equals("")){
+			Toast t=Toast.makeText(this,"Usuario: "+usuario+"\n"+
+									    "Contraseña: "+passwd, 3000);
+			t.show();
 		}
-		
 		//Else si estan vacios entonces.....
 		else {
 			Toast t=Toast.makeText(this,"Ingrese sus credenciales", 3000);
