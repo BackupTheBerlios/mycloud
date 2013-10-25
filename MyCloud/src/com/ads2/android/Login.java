@@ -20,7 +20,16 @@ public class Login extends Activity implements OnTouchListener {
 	Button registrar;
 	private Toast mensajito;
 	
+	//Conatantes para invocacion de WebServices
+	private static final String NAMESPACE = "";
+	private static final String URL = "";
+	private static final String METHOD_NAME = "";
+	private static final String SOAP_ACTION = "";
 	
+	//Declaracion de variables para consumir el web service
+	private SoapObject request = null;
+	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,15 +72,7 @@ public class Login extends Activity implements OnTouchListener {
 		
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	//Metodo para manejar el ingreso de los usuarios al sistema.
 	public void ingresar(){
 		String usuario = user.getText().toString().trim();
@@ -89,9 +90,6 @@ public class Login extends Activity implements OnTouchListener {
 		}
 				
 	}
-	
-	
-	
 	
 	//Metodo para registrar al usaurio.
 	public void registrar(){
