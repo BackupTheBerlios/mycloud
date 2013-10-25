@@ -31,10 +31,10 @@ public class Login extends Activity implements OnTouchListener {
 	private Toast mensajito;
 	
 	//Conatantes para invocacion de WebServices
-	private static final String NAMESPACE = "";
-	private static final String URL = "";
-	private static final String METHOD_NAME = "";
-	private static final String SOAP_ACTION = "";
+	private static final String NAMESPACE = "http://Consultas/";
+	private static final String URL = "http://192.168.1.101:8080/WebService/ConsultasService?xsd=1";
+	private static final String METHOD_NAME = "Permiso";
+	private static final String SOAP_ACTION = "http://Consultas/Permiso";
 	
 	//Declaracion de variables para consumir el web service
 	private SoapObject request = null;
@@ -114,29 +114,30 @@ public class Login extends Activity implements OnTouchListener {
 	
 	public void loginWS(String usuario, String passwd){
 		
-		request = new SoapObject(NAMESPACE,METHOD_NAME);
-		request.addProperty("", usuario);
-		request.addProperty("", passwd);
-		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-		envelope.setOutputSoapObject(request);
-		HttpTransportSE transporte = new HttpTransportSE(URL);
+		Toast t=Toast.makeText(this,"Antes de envio de datos", 3000);
+		t.show();
 		try {
-			transporte.call(SOAP_ACTION, envelope);
-			resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
-		} catch (HttpResponseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XmlPullParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request = new SoapObject(NAMESPACE,METHOD_NAME);
+//			request.addProperty("arg0", usuario);
+//			request.addProperty("arg1", passwd);
+//			envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//			envelope.setOutputSoapObject(request);
+//			HttpTransportSE transporte = new HttpTransportSE(URL);
+//
+//			transporte.call(SOAP_ACTION, envelope);
+//			resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
+		} catch (Exception e) {
+			t=Toast.makeText(this,e.getMessage(), 3000);
+		} 
+		
+		String resultado = "Vacio";
+		
+		if(resultRequestSOAP!=null){
+			resultado = resultRequestSOAP.toString();
 		}
 		
-		String resultado = resultRequestSOAP.toString();
 		
-		Toast t=Toast.makeText(this,resultado, 3000);
+		t=Toast.makeText(this,"Resultado: "+resultado, 3000);
 		
 		t.show();
 		
