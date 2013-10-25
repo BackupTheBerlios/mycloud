@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class inicio extends Activity implements OnTouchListener {
 
@@ -16,6 +17,8 @@ public class inicio extends Activity implements OnTouchListener {
 	Button visualizar;
 	Button salir;
 	
+	String usuario;
+	
 	
 	
 	
@@ -23,26 +26,22 @@ public class inicio extends Activity implements OnTouchListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.inicio);
 		
 		//Paso los valores de la GUI.
 		subir=(Button)findViewById(R.id.btn_subir_imagen);
-		visualizar=(Button)findViewById(R.id.btn_visualizar_imagen);
+		visualizar=(Button)findViewById(R.id.btn_compartir_imagen);
 		salir=(Button)findViewById(R.id.btn_salir);
 		
 		//Ahora le paso los eventos del ontouch a los botones.
 		subir.setOnTouchListener(this);
 		visualizar.setOnTouchListener(this);
 		salir.setOnTouchListener(this);
+	
+		Bundle b1 = getIntent().getExtras();
+		usuario = b1.getString("usuario");
+		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@Override
@@ -53,18 +52,21 @@ public class inicio extends Activity implements OnTouchListener {
 		if(arg0.getId()==R.id.btn_subir_imagen){
 			//Llama al metodo para subir una foto.
 			Intent intentar_subir=new Intent("com.ads2.android.FileChooser");
+			intentar_subir.putExtra("usuario", usuario);
 			startActivity(intentar_subir);
 			
 		}
 			
 		//Cuando se oprima visualizar foto
-		else if (arg0.getId()==R.id.btn_visualizar_imagen){
+		else if (arg0.getId()==R.id.btn_compartir_imagen){
 			//Llama al metodo para visualizar una foto.
 		}
 		
 		//Cuando se oprime salir.
 		else if (arg0.getId()==R.id.btn_salir){
 			//Llama al metodo para salir de la aplicacion.
+			 Toast t=Toast.makeText(this,usuario, 3000);
+			 t.show();
 			
 		}
 		

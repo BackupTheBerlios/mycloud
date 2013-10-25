@@ -28,6 +28,8 @@ public class Login extends Activity implements OnTouchListener {
 	EditText pass;
 	Button ingresar;
 	Button registrar;
+	int cont=0;
+	
 	private Toast mensajito;
 	
 	//Conatantes para invocacion de WebServices
@@ -72,6 +74,7 @@ public class Login extends Activity implements OnTouchListener {
 		//Cuando se oprima ingresar.
 		if(arg0.getId()==R.id.btningresar){
 			//Llama al metodo para ingresar.
+			cont=0;
 			ingresar();
 		}
 			
@@ -113,7 +116,7 @@ public class Login extends Activity implements OnTouchListener {
 	}
 	
 	public void loginWS(String usuario, String passwd){
-		
+		if(cont==0){
 		Toast t;
 		
 		
@@ -143,9 +146,17 @@ public class Login extends Activity implements OnTouchListener {
 		}
 		
 		
-		 t=Toast.makeText(this,"Resultado: "+resultado, 3000);
-		
-		t.show();
+		 if(resultado.equals("ACEPTADO")){
+				Intent intentar_Inicio=new Intent("com.ads2.android.inicio");
+				intentar_Inicio.putExtra("usuario", usuario);
+				startActivity(intentar_Inicio);
+		 }
+		 else{
+			 t=Toast.makeText(this,"Credenciales Incorrectas\nIntente de Nuevo", 3000);
+			 t.show();
+		 }
+		cont++;
+		}
 		
 	}
 	

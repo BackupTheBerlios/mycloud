@@ -23,10 +23,10 @@
             android:text="Subir imagen" />
 
         <Button
-            android:id="@+id/btn_visualizar_imagen"
+            android:id="@+id/btn_compartir_imagen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Visualizar imagen" />
+            android:text="Compartir Imagen" />
 
     </LinearLayout>
 
