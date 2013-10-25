@@ -1,5 +1,15 @@
 package com.ads2.android;
 
+import java.io.IOException;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpResponseException;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
@@ -28,8 +38,9 @@ public class Login extends Activity implements OnTouchListener {
 	
 	//Declaracion de variables para consumir el web service
 	private SoapObject request = null;
+	private SoapSerializationEnvelope envelope = null;
+	private SoapPrimitive resultRequestSOAP = null;
 	
-		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,9 +90,12 @@ public class Login extends Activity implements OnTouchListener {
 		String passwd = pass.getText().toString().trim();
 		//Si no estan vacios los cuadros de texto entonces...
 		if(!usuario.equals("") && !passwd.equals("")){
-			Toast t=Toast.makeText(this,"Usuario: "+usuario+"\n"+
-									    "Contraseña: "+passwd, 3000);
-			t.show();
+			
+			this.loginWS(usuario, passwd);
+
+//			Toast t=Toast.makeText(this,"Usuario: "+usuario+"\n"+
+//									    "Contraseña: "+passwd, 3000);
+//			t.show();
 		}
 		//Else si estan vacios entonces.....
 		else {
@@ -98,6 +112,35 @@ public class Login extends Activity implements OnTouchListener {
 		
 	}
 	
+	public void loginWS(String usuario, String passwd){
+		
+		request = new SoapObject(NAMESPACE,METHOD_NAME);
+		request.addProperty("", usuario);
+		request.addProperty("", passwd);
+		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE transporte = new HttpTransportSE(URL);
+		try {
+			transporte.call(SOAP_ACTION, envelope);
+			resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
+		} catch (HttpResponseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String resultado = resultRequestSOAP.toString();
+		
+		Toast t=Toast.makeText(this,resultado, 3000);
+		
+		t.show();
+		
+	}
 	
 	
 
