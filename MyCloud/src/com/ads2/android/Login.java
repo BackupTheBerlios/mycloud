@@ -115,21 +115,21 @@ public class Login extends Activity implements OnTouchListener {
 		
 		Toast t;
 		
+		request = new SoapObject(NAMESPACE,METHOD_NAME);
+		request.addProperty("arg0", usuario);
+		request.addProperty("arg1", passwd);
+		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE transporte = new HttpTransportSE(URL);
+		
 		try {
-			request = new SoapObject(NAMESPACE,METHOD_NAME);
-			request.addProperty("arg0", usuario);
-			request.addProperty("arg1", passwd);
-			envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-			envelope.setOutputSoapObject(request);
-			HttpTransportSE transporte = new HttpTransportSE(URL);
-
 			transporte.call(SOAP_ACTION, envelope);
 			resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
 		} catch (Exception e) {
 			t=Toast.makeText(this,"Excepcion: "+e.getMessage(), 3000);
 		} 
 		
-		String resultado = "Vacio";
+		String resultado ="Vacio";
 		
 		if(resultRequestSOAP!=null){
 			resultado = resultRequestSOAP.toString();
