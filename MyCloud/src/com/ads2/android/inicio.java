@@ -65,8 +65,8 @@ public class inicio extends Activity implements OnTouchListener {
 		//Cuando se oprime salir.
 		else if (arg0.getId()==R.id.btn_salir){
 			//Llama al metodo para salir de la aplicacion.
-			 Toast t=Toast.makeText(this,usuario, 3000);
-			 t.show();
+			Intent intent = new Intent(Intent.ACTION_MAIN); finish();
+			System.exit(0);
 			
 		}
 		

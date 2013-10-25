@@ -1,6 +1,17 @@
 package com.ads2.android;
 
+import java.io.IOException;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpResponseException;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +30,22 @@ EditText contrasena1;
 EditText contrasena2;
 Button registrar;
 
+String name="";
+String last="";
+String user="";
+String pass="";
+String pass2="";
+
+//Conatantes para invocacion de WebServices
+private static final String NAMESPACE = "http://Consultas/";
+private static final String URL = "http://192.168.1.101:8080/WebService/ConsultasService?xsd=1";
+private static final String METHOD_NAME = "Registro";
+private static final String SOAP_ACTION = "http://Consultas/Registro";
+
+//Declaracion de variables para consumir el web service
+private SoapObject request = null;
+private SoapSerializationEnvelope envelope = null;
+private SoapPrimitive resultRequestSOAP = null;
 	
 	
 	@Override
@@ -74,16 +101,21 @@ Button registrar;
 	//Metodo que verifica que todo los campos del registro sean congruentes.
 	public void registro(){
 		
+		name = nombre.getText().toString();
+		last = apellido.getText().toString();
+		user = usuario.getText().toString();
+		pass = contrasena1.getText().toString();
+		pass2 = contrasena2.getText().toString();
+		
+		
 	//Comparo primero que no haya campos vacios.
-		if(!nombre.getText().toString().trim().equals("") && !apellido.getText().toString().trim().equals("")
-		&& !usuario.getText().toString().trim().equals("") && !contrasena1.getText().toString().trim().equals("")
-		&& !contrasena2.getText().toString().trim().equals("")){
+		if(!name.equals("") && !last.equals("")
+		&& !user.equals("") && !pass.equals("")
+		&& !pass2.equals("")){
 			
 		//No hay campos vacios, ahora verifiquemos que el password se confirme correctamente.
-			if(contrasena1.getText().toString().trim().equals(contrasena2.getText().toString().trim())){
-				//Se crea el xml para ser enviado al servidor de BD.
-				//:::::::::::::::::::::::::::::::::::::::::::::::::::
-				//:::::::::::::::::::::::::::::::::::::::::::::::::::
+			if(pass.equals(pass2)){
+				this.registroWS(name, last, user, pass);
 			}
 			
 			//Caso contrario passwords no coinciden entonces........
@@ -104,19 +136,55 @@ Button registrar;
 			Mensaje.show();			
 		}
 		
+
+		
 		
 	}
 
 
-
-
-
-
-
-
-
-
-
+	public void registroWS(String nombre, String apellido, String usuario, String passwd){
+		
+		Toast t;
+		
+		
+		request = new SoapObject(NAMESPACE,METHOD_NAME);
+		request.addProperty("arg0", nombre);
+		request.addProperty("arg1", apellido);
+		request.addProperty("arg2", usuario);
+		request.addProperty("arg3", passwd);
+		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.setOutputSoapObject(request);
+		HttpTransportSE transporte = new HttpTransportSE(URL);
+	
+		
+		try {
+			transporte.call(SOAP_ACTION, envelope);
+			resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
+		} catch (HttpResponseException e) {
+			t=Toast.makeText(this,"Resultado: "+e.getMessage(), 3000);
+		} catch (IOException e) {
+			t=Toast.makeText(this,"Resultado: "+e.getMessage(), 3000);
+		} catch (XmlPullParserException e) {
+			 t=Toast.makeText(this,"Resultado: "+e.getMessage(), 3000);
+		}
+	
+	String resultado ="Vacio";
+	
+	if(resultRequestSOAP!=null){
+		resultado = resultRequestSOAP.toString();
+	}
+	
+	
+	 if(resultado.equals("OK")){
+		 t=Toast.makeText(this,"Registro Existoso", 3000);
+		 t.show();
+	 }
+	 else{
+		 t=Toast.makeText(this,"Credenciales Incorrectas\nIntente de Nuevo", 3000);
+		 t.show();
+	 }
+		
+	}
 
 
 } //fin de la clase.
