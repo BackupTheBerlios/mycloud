@@ -16,6 +16,7 @@ public class inicio extends Activity implements OnTouchListener {
 	Button subir;
 	Button visualizar;
 	Button salir;
+	Button archivos;
 	
 	String usuario;
 	
@@ -32,11 +33,13 @@ public class inicio extends Activity implements OnTouchListener {
 		subir=(Button)findViewById(R.id.btn_subir_imagen);
 		visualizar=(Button)findViewById(R.id.btn_compartir_imagen);
 		salir=(Button)findViewById(R.id.btn_salir);
+		archivos=(Button)findViewById(R.id.btn_misarchivos);
 		
 		//Ahora le paso los eventos del ontouch a los botones.
 		subir.setOnTouchListener(this);
 		visualizar.setOnTouchListener(this);
 		salir.setOnTouchListener(this);
+		archivos.setOnTouchListener(this);
 	
 		Bundle b1 = getIntent().getExtras();
 		usuario = b1.getString("usuario");
@@ -70,6 +73,14 @@ public class inicio extends Activity implements OnTouchListener {
 			
 		}
 		
+		//@+id/btn_misarchivos
+		else if(arg0.getId()==R.id.btn_misarchivos){
+			//Llama al metodo para listar archivos
+			Intent intentar_subir=new Intent("com.ads2.android.Misarchivos");
+			intentar_subir.putExtra("usuario", usuario);
+			startActivity(intentar_subir);
+			
+		}
 		
 		
 		
