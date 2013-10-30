@@ -13,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -46,8 +47,23 @@ private static final String SOAP_ACTION = "http://Consultas/Registro";
 private SoapObject request = null;
 private SoapSerializationEnvelope envelope = null;
 private SoapPrimitive resultRequestSOAP = null;
+
+int cont=0;
 	
 	
+@Override
+public boolean onKeyDown(int keyCode, KeyEvent event){
+	
+	switch(keyCode){
+		case KeyEvent.KEYCODE_BACK:
+			Intent intent = new Intent(Intent.ACTION_MAIN); finish();
+			System.exit(0);
+			return true;
+	}
+	
+	return false;
+}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -76,7 +92,8 @@ private SoapPrimitive resultRequestSOAP = null;
 		// Cuando se oprime registrar.
 		if(v.getId()==R.id.btnreg_reg){
 			//Llama al metodo para registrar.
-			registro();
+				registro();
+				
 		}
 		
 		return false;
@@ -100,7 +117,7 @@ private SoapPrimitive resultRequestSOAP = null;
 	
 	//Metodo que verifica que todo los campos del registro sean congruentes.
 	public void registro(){
-		
+		if(cont==0){
 		name = nombre.getText().toString();
 		last = apellido.getText().toString();
 		user = usuario.getText().toString();
@@ -137,8 +154,8 @@ private SoapPrimitive resultRequestSOAP = null;
 		}
 		
 
-		
-		
+			cont++;
+		}
 	}
 
 
@@ -180,7 +197,7 @@ private SoapPrimitive resultRequestSOAP = null;
 		 t.show();
 	 }
 	 else{
-		 t=Toast.makeText(this,"Credenciales Incorrectas\nIntente de Nuevo", 3000);
+		 t=Toast.makeText(this,"Registro Incorrecto\n\nIntente de Nuevo", 3000);
 		 t.show();
 	 }
 		

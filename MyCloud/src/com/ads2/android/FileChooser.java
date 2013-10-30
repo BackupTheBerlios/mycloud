@@ -20,6 +20,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -130,7 +131,18 @@ public class FileChooser extends ListActivity {
     }
     
     
-    
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+		
+		switch(keyCode){
+			case KeyEvent.KEYCODE_BACK:
+				Intent intent = new Intent(Intent.ACTION_MAIN); finish();
+				System.exit(0);
+				return true;
+		}
+		
+		return false;
+	}
     
     
     //METODO PARA CARGAR LOS DATOS Y ARCHIVOS.
@@ -188,11 +200,11 @@ public class FileChooser extends ListActivity {
 					
 					
 					 if(resultado.equals("OK")){
-						 Toast t=Toast.makeText(this,"Archivo: "+o.getName()+" Subido exitosamente", 3000);
+						 Toast t=Toast.makeText(this,"Archivo: "+o.getName()+" Subido exitosamente.", 5000);
 						 t.show();
 					 }
 					 else{
-						Toast t=Toast.makeText(this,"Archivo: "+o.getName()+" No pudo cargarse: "+resultado, 3000);
+						Toast t=Toast.makeText(this,"Archivo: "+o.getName()+" No pudo cargarse.", 5000);
 						 t.show();
 					 }
 				

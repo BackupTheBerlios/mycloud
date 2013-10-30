@@ -29,6 +29,7 @@ public class Login extends Activity implements OnTouchListener {
 	Button ingresar;
 	Button registrar;
 	int cont=0;
+	int contR=0;
 	
 	private Toast mensajito;
 	
@@ -48,6 +49,8 @@ public class Login extends Activity implements OnTouchListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		contR=0;
+		cont=0;
 		//Paso los valores de user y password al crearse la aplicacion.
 		user=(EditText) findViewById(R.id.txtuser);
 		pass=(EditText) findViewById(R.id.txtpassword);
@@ -74,7 +77,7 @@ public class Login extends Activity implements OnTouchListener {
 		//Cuando se oprima ingresar.
 		if(arg0.getId()==R.id.btningresar){
 			//Llama al metodo para ingresar.
-			cont=0;
+			//cont=0;
 			ingresar();
 		}
 			
@@ -110,9 +113,11 @@ public class Login extends Activity implements OnTouchListener {
 	
 	//Metodo para registrar al usaurio.
 	public void registrar(){
+		if(contR==0){
 		Intent intentar_registrar=new Intent("com.example.login.Reg");
 		startActivity(intentar_registrar);
-		
+		contR++;
+		}
 	}
 	
 	public void loginWS(String usuario, String passwd){
@@ -141,6 +146,9 @@ public class Login extends Activity implements OnTouchListener {
 		
 		String resultado ="Vacio";
 		
+
+		cont++;
+		
 		if(resultRequestSOAP!=null){
 			resultado = resultRequestSOAP.toString();
 		}
@@ -154,8 +162,8 @@ public class Login extends Activity implements OnTouchListener {
 		 else{
 			 t=Toast.makeText(this,"Credenciales Incorrectas\nIntente de Nuevo", 3000);
 			 t.show();
+			 cont=0;
 		 }
-		cont++;
 		}
 		
 	}

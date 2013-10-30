@@ -71,6 +71,19 @@
             </intent-filter>
         </activity>         
                 
+             
+             
+             
+         <activity
+            android:name="com.ads2.android.compartir"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.ads2.android.compartir" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity> 
+             
                 
         
         

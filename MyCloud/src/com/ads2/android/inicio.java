@@ -3,6 +3,7 @@ package com.ads2.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -20,6 +21,7 @@ public class inicio extends Activity implements OnTouchListener {
 	
 	String usuario;
 	
+	int cont=0;
 	
 	
 	
@@ -28,7 +30,7 @@ public class inicio extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.inicio);
-		
+		cont = 0;
 		//Paso los valores de la GUI.
 		subir=(Button)findViewById(R.id.btn_subir_imagen);
 		visualizar=(Button)findViewById(R.id.btn_compartir_imagen);
@@ -46,11 +48,23 @@ public class inicio extends Activity implements OnTouchListener {
 		
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+		
+		switch(keyCode){
+			case KeyEvent.KEYCODE_BACK:
+				Intent intent = new Intent(Intent.ACTION_MAIN); finish();
+				System.exit(0);
+				return true;
+		}
+		
+		return false;
+	}
 	
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
-		
+		if(cont==0){
 		//Cuando se oprima ingresar.
 		if(arg0.getId()==R.id.btn_subir_imagen){
 			//Llama al metodo para subir una foto.
@@ -63,6 +77,10 @@ public class inicio extends Activity implements OnTouchListener {
 		//Cuando se oprima visualizar foto
 		else if (arg0.getId()==R.id.btn_compartir_imagen){
 			//Llama al metodo para visualizar una foto.
+			Intent intentar_compartir = new Intent("com.ads2.android.compartir");
+			intentar_compartir.putExtra("usuario", usuario);
+			startActivity(intentar_compartir);
+			
 		}
 		
 		//Cuando se oprime salir.
@@ -79,10 +97,11 @@ public class inicio extends Activity implements OnTouchListener {
 			Intent intentar_subir=new Intent("com.ads2.android.Misarchivos");
 			intentar_subir.putExtra("usuario", usuario);
 			startActivity(intentar_subir);
-			
+		
 		}
 		
-		
+		cont++;
+		}
 		
 		return false;
 	}

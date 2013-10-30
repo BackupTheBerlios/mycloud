@@ -13,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -40,6 +41,18 @@ public class Misarchivos extends Activity implements OnTouchListener {
 	
 	
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event){
+		
+		switch(keyCode){
+			case KeyEvent.KEYCODE_BACK:
+				Intent intent = new Intent(Intent.ACTION_MAIN); finish();
+				System.exit(0);
+				return true;
+		}
+		
+		return false;
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +87,20 @@ public class Misarchivos extends Activity implements OnTouchListener {
 			
 			try {
 				transporte.call(SOAP_ACTION, envelope);
-				resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
+				if(envelope.getResponse()!=null){
+					resultRequestSOAP = (SoapPrimitive) envelope.getResponse();
+				}
 			} catch (HttpResponseException e) {
 				t=Toast.makeText(this,"Resultado: "+e.getMessage(), 3000);
 			} catch (IOException e) {
 				t=Toast.makeText(this,"Resultado: "+e.getMessage(), 3000);
 			} catch (XmlPullParserException e) {
 				 t=Toast.makeText(this,"Resultado: "+e.getMessage(), 3000);
+			}catch(Exception e){
+				etiqueta.setText("No tiene archivos");
 			}
 		
-		String resultado ="Vacio";
+		String resultado ="";
 		
 		if(resultRequestSOAP!=null){
 			resultado = resultRequestSOAP.toString();
